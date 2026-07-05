@@ -48,18 +48,22 @@ onMounted(() => {
     <h1>Личный кабинет</h1>
 
     <div v-if="!user">
-      <p>Войдите, чтобы увидеть свои мастер-классы.</p>
+      <p class="muted">Войдите, чтобы увидеть свои мастер-классы.</p>
     </div>
     <div v-else>
       <h2>Мои мастер-классы</h2>
-      <p v-if="loading">Загрузка...</p>
-      <p v-else-if="myEvents.length === 0">Вы пока ничего не добавили</p>
-      <ul v-else>
-        <li v-for="event in myEvents" :key="event.id">
-          <strong>{{ event.title }}</strong> — {{ event.event_date }}
-          <br />{{ event.location }}, преподаватель: {{ event.teacher_name }}
-          <br />
-          <button @click="removeFromMy(event.id)">Убрать</button>
+      <p v-if="loading" class="muted">Загрузка...</p>
+      <p v-else-if="myEvents.length === 0" class="muted">Вы пока ничего не добавили</p>
+      <ul v-else class="event-list">
+        <li v-for="event in myEvents" :key="event.id" class="event-card">
+          <h3>{{ event.title }}</h3>
+          <div class="event-meta">
+            {{ new Date(event.event_date).toLocaleString('ru-RU', { dateStyle: 'medium', timeStyle: 'short' }) }}
+            · {{ event.location }} · преподаватель: {{ event.teacher_name }}
+          </div>
+          <div class="event-actions">
+            <button @click="removeFromMy(event.id)">Убрать</button>
+          </div>
         </li>
       </ul>
     </div>

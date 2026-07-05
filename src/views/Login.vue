@@ -28,25 +28,25 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div>
+  <div class="form-page">
     <h1>{{ isRegister ? 'Регистрация' : 'Вход' }}</h1>
     <form @submit.prevent="handleSubmit">
       <div v-if="isRegister">
-        <label>Никнейм</label><br />
+        <label>Никнейм</label>
         <input v-model="nickname" type="text" required />
       </div>
       <div>
-        <label>Email</label><br />
+        <label>Email</label>
         <input v-model="email" type="email" required />
       </div>
       <div>
-        <label>Пароль</label><br />
+        <label>Пароль</label>
         <input v-model="password" type="password" required />
       </div>
-      <p v-if="errorMsg" style="color: red">{{ errorMsg }}</p>
+      <p v-if="errorMsg" class="error-text">{{ errorMsg }}</p>
       <button type="submit">{{ isRegister ? 'Зарегистрироваться' : 'Войти' }}</button>
     </form>
-    <button @click="isRegister = !isRegister">
+    <button class="btn-secondary" @click="isRegister = !isRegister" style="margin-top: 16px;">
       {{ isRegister ? 'Уже есть аккаунт? Войти' : 'Нет аккаунта? Зарегистрироваться' }}
     </button>
   </div>

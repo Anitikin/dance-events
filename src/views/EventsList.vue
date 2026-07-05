@@ -47,18 +47,24 @@ onMounted(async () => {
 <template>
   <div>
     <h1>Мастер-классы</h1>
-    <p v-if="loading">Загрузка...</p>
-    <p v-else-if="events.length === 0">Пока нет мастер-классов</p>
-    <ul v-else>
-      <li v-for="event in events" :key="event.id">
-        <strong>{{ event.title }}</strong> — {{ event.event_date }}
-        <br />{{ event.location }}, преподаватель: {{ event.teacher_name }}
-        <br />
-        <button v-if="user && !myEventIds.has(event.id)" @click="addToMy(event.id)">
-          Добавить к себе
-        </button>
-        <span v-else-if="myEventIds.has(event.id)">✓ Добавлено</span>
-        <a :href="getGoogleCalendarUrl(event)" target="_blank">📅 В календарь</a>
+    <p v-if="loading" class="muted">Загрузка...</p>
+    <p v-else-if="events.length === 0" class="muted">Пока нет мастер-классов</p>
+    <ul v-else class="event-list">
+      <li v-for="event in events" :key="event.id" class="event-card">
+        <h3>{{ event.title }}</h3>
+        <div class="event-meta">
+          {{ new Date(event.event_date).toLocaleString('ru-RU', { dateStyle: 'medium', timeStyle: 'short' }) }}
+          · {{ event.location }} · преподаватель: {{ event.teacher_name }}
+        </div>
+        <div class="event-actions">
+          <button v-if="user && !myEventIds.has(event.id)" @click="addToMy(event.id)">
+            Добавить к себе
+          </button>
+          <span v-else-if="myEventIds.has(event.id)" class="added-label">✓ Добавлено</span>
+          <a :href="getGoogleCalendarUrl(event)" target="_blank" class="btn btn-secondary">
+            📅 В календарь
+          </a>
+        </div>
       </li>
     </ul>
   </div>
